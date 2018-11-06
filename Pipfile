@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests-oauthlib = "==1.0"
+requests = "==2.20"
+flask = "==1.0"
+docopt = "*"
+
+[dev-packages]
+isort = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+auth = "python auth.py"
+sort = "python sort.py"
