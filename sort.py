@@ -23,16 +23,17 @@ def main():
         json = response.json()
         json.sort(key=lambda item: item['created_at'])
         json.reverse()
-        
+        sorted_ids = [item['id'] for item in json]
+
         response = requests.get(f'http://a.wunderlist.com/api/v1/task_positions', {'list_id': list_id}, headers={'X-Access-Token': token, 'X-Client-ID': client_id})
         assert response.status_code == 200
         positions_json = response.json()
-        #print(positions_json)
-
-        response = requests.put(f'http://a.wunderlist.com/api/v1/task_positions/{positions_json[0]["id"]}', json={'revision': positions_json[0]['revision'], 'values': [item['id'] for item in json]}, headers={'X-Access-Token': token, 'X-Client-ID': client_id})
-        assert response.status_code == 200
-        #print(response.json())
-        print('Done!')
+        if positions_json[0]['values'] == sorted_ids:
+            print('Nothing changed.')
+        else:
+            response = requests.put(f'http://a.wunderlist.com/api/v1/task_positions/{positions_json[0]["id"]}', json={'revision': positions_json[0]['revision'], 'values': [item['id'] for item in json]}, headers={'X-Access-Token': token, 'X-Client-ID': client_id})
+            assert response.status_code == 200
+            print('Done!')
     else:
         response = requests.get('http://a.wunderlist.com/api/v1/lists', headers={'X-Access-Token': token, 'X-Client-ID': client_id})
         assert response.status_code == 200
