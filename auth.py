@@ -36,7 +36,7 @@ def callback():
 
     with token_file.open('w') as open_file:
         open_file.write(token['access_token'])
-    return redirect(url_for('.login'))
+    return redirect(url_for('.shutdown'))
 
 @app.route("/shutdown")
 def shutdown():
